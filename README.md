@@ -1,13 +1,13 @@
-Train 
+---
+title: Tiny Transformers
+emoji: 🧠
+colorFrom: blue
+colorTo: purple
+sdk: gradio
+app_file: app.py
+pinned: false
+---
 
-    ```
-    cd tiny-sentence-transformer
-    python -m src.train
-    ```
+# Tiny Sentence Transformer
 
-Inference
-
-    ```
-    cd tiny-sentence-transformer
-    python -m src.test_inference
-    ```
+A tiny character-level transformer trained on a Shakespeare corpus.
