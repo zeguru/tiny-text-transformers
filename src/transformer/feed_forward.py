@@ -20,7 +20,7 @@ class FeedForward(nn.Module):
             nn.Linear(d_model, d_ff),       #d_ff is the hidden dimension of the feed forward network, usually larger than d_model
             nn.GELU(),                      #Activation function.. Gaussian Error Linear Unit (GELU) is a smooth approximation of the ReLU function, which allows for better gradient flow during training.
             nn.Linear(d_ff, d_model),       #collapses the hidden dimension back to the original model dimension, ensuring that the output has the same shape as the input
-        )
+            )
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         return self.net(x)

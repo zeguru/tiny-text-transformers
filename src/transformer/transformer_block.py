@@ -18,18 +18,18 @@ class TransformerBlock(nn.Module):
 
         self.dropout = nn.Dropout(dropout)
 
-    def forward(self, x, padding_mask: torch.Tensor | None = None,) -> torch.Tensor:
+    def forward(self, token, padding_mask: torch.Tensor | None = None,) -> torch.Tensor:
 
         attention_output = self.attention(x, padding_mask=padding_mask)
 
         x = self.layer_norm_1(
             x + self.dropout(attention_output)
-        )
+            )
 
         ffn_output = self.feed_forward(x)
 
         x = self.layer_norm_2(
-            x + self.dropout(ffn_output)
-        )
+            x + self.dropout(ffn_output)        #x is the residual/skip connection... makes sure the original x still influences the learning
+            )
 
         return x

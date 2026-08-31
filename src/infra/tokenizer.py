@@ -1,8 +1,8 @@
+# Treats each character is a token 
 class CharacterTokenizer:
 
     PAD_TOKEN = "<PAD>"
     UNK_TOKEN = "<UNK>"
-
 
     def __init__(self, text):
         characters = sorted(set(text))

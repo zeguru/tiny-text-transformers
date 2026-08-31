@@ -1,0 +1,131 @@
+
+# =========================
+# Python
+# =========================
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# =========================
+# Packaging
+# =========================
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# =========================
+# Testing / linting
+# =========================
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.mypy_cache/
+.pyright/
+.ruff_cache/
+
+# =========================
+# Jupyter
+# =========================
+.ipynb_checkpoints/
+
+# =========================
+# Environment / secrets
+# =========================
+.env
+.env.*
+!.env.example
+
+# =========================
+# Hugging Face / ML caches
+# =========================
+
+# Hugging Face Hub cache
+.huggingface/
+huggingface/
+.cache/huggingface/
+
+# Hugging Face / Transformers caches
+.cache/
+transformers_cache/
+
+# Datasets cache
+datasets_cache/
+
+# =========================
+# Model checkpoints
+# =========================
+# checkpoints/
+# checkpoint-*/
+# outputs/
+# runs/
+
+# Common training artifacts
+wandb/
+mlruns/
+tensorboard/
+logs/
+
+# =========================
+# Large ML artifacts
+# =========================
+# *.ckpt
+# *.pt
+# *.pth
+# *.safetensors
+# *.bin
+# *.onnx
+
+# =========================
+# Local datasets
+# =========================
+# data/
+# datasets/
+
+# Keep directory placeholders if needed
+!data/.gitkeep
+!datasets/.gitkeep
+
+# =========================
+# IDEs / editors
+# =========================
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# =========================
+# OS
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Logs / temporary files
+# =========================
+*.log
+tmp/
+temp/
+
+# =========================
+# Local databases
+# =========================
+*.sqlite
+*.sqlite3
+*.db
+
+# =========================
+# uv
+# =========================
+# Keep uv.lock tracked.
+# Do NOT add uv.lock to .gitignore.
+

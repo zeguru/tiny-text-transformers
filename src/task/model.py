@@ -1,3 +1,5 @@
+"""Single Head transformer"""
+
 import torch
 import torch.nn as nn
 
@@ -13,10 +15,10 @@ class TinyTransformerLM(nn.Module):
     ):
         super().__init__()
 
-        self.embedding = nn.Embedding(
-            vocab_size,
-            config.d_model,
-        )
+        # self.embedding = nn.Embedding(
+        #     vocab_size,
+        #     config.d_model,
+        # )
 
         self.input_representation = InputRepresentation(
             vocab_size=vocab_size,
@@ -43,31 +45,30 @@ class TinyTransformerLM(nn.Module):
     ) -> torch.Tensor:
 
         x = self.input_representation(tokens)
-
         x = self.transformer(x)
-
-        logits = self.head(x)
+        logits = self.head(x)   
 
         return logits
 
 
+# Load from checkpoint
 def load_model(
     checkpoint_path,
     config,
     vocab_size,
-):
+    ):
+
     model = TinyTransformerLM(
         config=config,
         vocab_size=vocab_size,
-    )
+        )
 
     checkpoint = torch.load(
         checkpoint_path,
         map_location="cpu",
-    )
+        )
 
     model.load_state_dict(checkpoint)
-
     model.eval()
 
     return model

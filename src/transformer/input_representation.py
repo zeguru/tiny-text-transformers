@@ -45,20 +45,19 @@ class InputRepresentation(nn.Module):
         self.token_embedding = Embedding(
             vocab_size=vocab_size,
             d_model=d_model,
-        )
+            )
 
         self.positional_embedding = PositionalEmbedding(
             context_length=context_length,
             d_model=d_model,
-        )
+            )
 
     def forward(
         self,
         token_ids: torch.Tensor,
-    ) -> torch.Tensor:
+        ) -> torch.Tensor:
 
         token_vectors = self.token_embedding(token_ids)
-
         position_vectors = self.positional_embedding(token_ids)
 
         return token_vectors + position_vectors

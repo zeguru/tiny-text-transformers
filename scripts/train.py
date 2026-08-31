@@ -17,11 +17,11 @@ def separator(title: str) -> None:
     print(title)
     print("=" * 60)
 
+# Runtime configs
+corpus = "data/tiny_shakespear.txt"
+checkpoint = "tiny-text-transformer.pt"
 
-# --------------------------------------------------
-# Configuration
-# --------------------------------------------------
-
+# Configs
 separator("Configuration")
 
 torch.manual_seed(42)
@@ -33,13 +33,10 @@ print(model_config)
 print(training_config)
 
 
-# --------------------------------------------------
-# Load corpus
-# --------------------------------------------------
-
+# Load the corpus
 separator("Corpus")
 
-data_path = Path("data/tiny_shakespear.txt")
+data_path = Path(corpus)
 
 text = data_path.read_text(
     encoding="utf-8",
@@ -48,10 +45,7 @@ text = data_path.read_text(
 print(f"Corpus length: {len(text):,} characters")
 
 
-# --------------------------------------------------
-# Tokenization
-# --------------------------------------------------
-
+# Tokens
 separator("Tokenization")
 
 tokenizer = CharacterTokenizer(text)
@@ -73,57 +67,48 @@ separator("Data Split")
 
 train_tokens, val_tokens, test_tokens = split_tokens(
     tokens,
-)
+    )
 
 print(f"Train tokens: {len(train_tokens):,}")
 print(f"Val tokens:   {len(val_tokens):,}")
 print(f"Test tokens:  {len(test_tokens):,}")
 
 
-# --------------------------------------------------
 # Datasets
-# --------------------------------------------------
-
 separator("Datasets")
 
 train_dataset = AutoRegressiveDataset(
     tokens=train_tokens,
     context_length=model_config.context_length,
-)
+    )
 
 val_dataset = AutoRegressiveDataset(
     tokens=val_tokens,
     context_length=model_config.context_length,
-)
+    )
 
 test_dataset = AutoRegressiveDataset(
     tokens=test_tokens,
     context_length=model_config.context_length,
-)
+    )
 
 print(f"Train examples: {len(train_dataset):,}")
 print(f"Val examples:   {len(val_dataset):,}")
 print(f"Test examples:  {len(test_dataset):,}")
 
 
-# --------------------------------------------------
-# Model
-# --------------------------------------------------
-
+# Models
 separator("Model")
 
 model = TinyTransformerLM(
     config=model_config,
     vocab_size=tokenizer.vocab_size,
-)
+    )
 
 print(model)
 
 
-# --------------------------------------------------
-# Training
-# --------------------------------------------------
-
+# Train........
 separator("Training")
 
 train(
@@ -132,13 +117,10 @@ train(
     val_dataset=val_dataset,
     model_config=model_config,
     training_config=training_config,
-)
+    )
 
 
-# --------------------------------------------------
 # Final test evaluation
-# --------------------------------------------------
-
 separator("Test Evaluation")
 
 test_loss = evaluate(
@@ -161,7 +143,7 @@ checkpoint_dir = Path("checkpoints")
 checkpoint_dir.mkdir(parents=True, exist_ok=True)
 
 checkpoint_path = (
-    checkpoint_dir / "tiny-sentence-transformer.pt"
+    checkpoint_dir / checkpoint
 )
 
 torch.save(

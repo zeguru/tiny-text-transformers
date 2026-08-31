@@ -1,5 +1,5 @@
 [project]
-name = "tiny-sentence-transformer"
+name = "tiny-text-transformer"
 version = "0.1.0"
 requires-python = ">=3.14"
 dependencies = [

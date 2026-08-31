@@ -5,57 +5,8 @@ import torch
 from src.infra.tokenizer import CharacterTokenizer
 
 
-class TextClassificationDataset:
-
-    def __init__(
-        self,
-        texts,
-        labels,
-        tokenizer: CharacterTokenizer,
-    ):
-        if len(texts) != len(labels):
-            raise ValueError(
-                "texts and labels must have the same length"
-            )
-
-        self.texts = texts
-
-        self.labels = torch.tensor(
-            labels,
-            dtype=torch.long,
-        )
-
-        encoded = [
-            tokenizer.encode(text)
-            for text in texts
-        ]
-
-        self.tokens, self.padding_mask = tokenizer.pad(
-            encoded
-        )
-
-        self.tokens = torch.tensor(
-            self.tokens,
-            dtype=torch.long,
-        )
-
-        self.padding_mask = torch.tensor(
-            self.padding_mask,
-            dtype=torch.bool,
-        )
-
-    def __len__(self):
-        return len(self.texts)
-
-    def __getitem__(self, index):
-
-        return (
-            self.tokens[index],
-            self.padding_mask[index],
-            self.labels[index],
-        )
-
-
+# Auto Regressive Model: 
+# a statistical tool that predicts future values in a sequence by using past values from the same sequence
 class AutoRegressiveDataset:
     """Dataset for autoregressive language modeling.
 
@@ -108,16 +59,68 @@ class AutoRegressiveDataset:
 
         if index < 0 or index >= len(self):
             raise IndexError(
-                "dataset index out of range"
+                "index out of range"
             )
 
         start = index
         end = start + self.context_length
 
-        input_ids = self.tokens[start:end]
-        target_ids = self.tokens[start + 1:end + 1]
+        input_ids = self.tokens[start:end]      #lag
+        target_ids = self.tokens[start + 1:end + 1] 
 
         return input_ids, target_ids
+
+
+
+class TextClassificationDataset:
+
+    def __init__(
+        self,
+        texts,
+        labels,
+        tokenizer: CharacterTokenizer,
+    ):
+        if len(texts) != len(labels):
+            raise ValueError(
+                "texts and labels must have the same length... why ?"
+            )
+
+        self.texts = texts
+
+        self.labels = torch.tensor(
+            labels,
+            dtype=torch.long,
+        )
+
+        encoded = [
+            tokenizer.encode(text)
+            for text in texts
+        ]
+
+        self.tokens, self.padding_mask = tokenizer.pad(
+            encoded
+        )
+
+        self.tokens = torch.tensor(
+            self.tokens,
+            dtype=torch.long,
+        )
+
+        self.padding_mask = torch.tensor(
+            self.padding_mask,
+            dtype=torch.bool,
+        )
+
+    def __len__(self):
+        return len(self.texts)
+
+    def __getitem__(self, index):
+
+        return (
+            self.tokens[index],
+            self.padding_mask[index],
+            self.labels[index],
+        )
 
 
 def split_tokens(

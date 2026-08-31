@@ -1138,7 +1138,7 @@ wheels = [
 ]
 
 [[package]]
-name = "tiny-sentence-transformer"
+name = "tiny-text-transformer"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [

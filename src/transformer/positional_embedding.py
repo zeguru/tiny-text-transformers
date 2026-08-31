@@ -25,7 +25,7 @@ class PositionalEmbedding(nn.Module):
         self.embedding = nn.Embedding(
             num_embeddings=context_length,
             embedding_dim=d_model
-        )
+            )
 
     def forward(self, token_ids: torch.Tensor) -> torch.Tensor:
 
@@ -34,7 +34,7 @@ class PositionalEmbedding(nn.Module):
         positions = torch.arange(
             context_length,
             device=token_ids.device
-        )
+            )
 
         positions = positions.unsqueeze(0).expand(batch_size, context_length)
 
