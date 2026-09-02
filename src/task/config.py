@@ -20,3 +20,10 @@ class TrainingConfig:
     num_steps: int = 1000
     eval_interval: int = 100
     eval_batches: int = 20
+
+
+#need to connect to config file or cli args
+@dataclass
+class RuntimeConfig:
+    number_of_heads: int = 4
+    

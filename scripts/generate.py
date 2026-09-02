@@ -8,7 +8,7 @@ from src.task.inference import TextGenerator
 
 # Runtime configs
 corpus = "data/tiny_shakespear.txt"
-checkpoint = "checkpoints/tiny-text-transformer-0.2.pt"
+checkpoint = "checkpoints/tiny-text-transformer.pt"
 
 text = Path(corpus).read_text(encoding="utf-8")
 

@@ -3,7 +3,7 @@ import torch.nn as nn
 
 from src.transformer.attention import Attention
 from src.transformer.feed_forward import FeedForward
-
+from src.transformer.mutli_head_attention import MultiHeadAttention
 
 class TransformerBlock(nn.Module):
 
@@ -11,6 +11,7 @@ class TransformerBlock(nn.Module):
         super().__init__()
 
         self.attention = Attention(d_model, context_length)
+        #self.multihead_attention = MultiHeadAttention(d_model, context_length, number_of_heads=4)
         self.feed_forward = FeedForward(d_model, d_ff)
 
         self.layer_norm_1 = nn.LayerNorm(d_model)
@@ -18,9 +19,10 @@ class TransformerBlock(nn.Module):
 
         self.dropout = nn.Dropout(dropout)
 
-    def forward(self, token, padding_mask: torch.Tensor | None = None,) -> torch.Tensor:
+    def forward(self, x, padding_mask: torch.Tensor | None = None,) -> torch.Tensor:
 
         attention_output = self.attention(x, padding_mask=padding_mask)
+        #attention_output = self.multihead_attention(x, padding_mask=padding_mask)
 
         x = self.layer_norm_1(
             x + self.dropout(attention_output)

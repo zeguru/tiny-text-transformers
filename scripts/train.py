@@ -19,7 +19,7 @@ def separator(title: str) -> None:
 
 # Runtime configs
 corpus = "data/tiny_shakespear.txt"
-checkpoint = "tiny-text-transformer.pt"
+checkpoint = "multi-head-tiny-text-transformer.pt"
 
 # Configs
 separator("Configuration")
@@ -115,7 +115,6 @@ train(
     model=model,
     train_dataset=train_dataset,
     val_dataset=val_dataset,
-    model_config=model_config,
     training_config=training_config,
     )
 
@@ -126,7 +125,6 @@ separator("Test Evaluation")
 test_loss = evaluate(
     model=model,
     dataset=test_dataset,
-    model_config=model_config,
     training_config=training_config,
 )
 

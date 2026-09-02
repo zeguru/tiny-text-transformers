@@ -45,7 +45,6 @@ def train(
     model,
     train_dataset: AutoRegressiveDataset,
     val_dataset: AutoRegressiveDataset,
-    model_config,
     training_config,
     ):
 
@@ -65,14 +64,12 @@ def train(
             train_loss = evaluate(
                 model=model,
                 dataset=train_dataset,
-                model_config=model_config,
                 training_config=training_config,
                 )
 
             val_loss = evaluate(
                 model=model,
                 dataset=val_dataset,
-                model_config=model_config,
                 training_config=training_config,
                 )
 
