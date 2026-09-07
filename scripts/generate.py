@@ -38,7 +38,7 @@ text_generator = TextGenerator(
 
 # do gemerate
 output = text_generator.generate(
-    prompt="ROMEO:",
+    prompt_text="ROMEO:",
     max_new_tokens=300,
     temperature=0.7,
 )

@@ -1,8 +1,8 @@
 import torch
 import torch.nn as nn
 
-from src.infra.dataset import (AutoRegressiveDataset, get_batch)
-
+from src.infra.dataset.autoregressive import AutoRegressiveDataset
+from src.infra.dataset.util import get_batch
 
 @torch.no_grad()    #do not calculate gradients
 def evaluate(

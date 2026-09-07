@@ -2,8 +2,9 @@ from pathlib import Path
 
 import torch
 
+from src.infra.dataset.util import split_tokens, get_batch
 from src.infra.tokenizer import CharacterTokenizer
-from src.infra.dataset import AutoRegressiveDataset, split_tokens
+from src.infra.dataset.autoregressive import AutoRegressiveDataset
 
 from src.task.config import ModelConfig,TrainingConfig
 
@@ -19,7 +20,7 @@ def separator(title: str) -> None:
 
 # Runtime configs
 corpus = "data/tiny_shakespear.txt"
-checkpoint = "multi-head-tiny-text-transformer.pt"
+checkpoint = "txt-transformer.pt"
 
 # Configs
 separator("Configuration")
@@ -59,9 +60,7 @@ print(f"Vocabulary size: {tokenizer.vocab_size}")
 print(f"Token count: {len(tokens):,}")
 
 
-# --------------------------------------------------
-# Train / validation / test split
-# --------------------------------------------------
+# Train/Val/Test split
 
 separator("Data Split")
 

@@ -1,6 +1,6 @@
 import torch
 
-from src.infra.generation import generator
+from src.infra.generation import prompt
 
 
 class TextGenerator:
@@ -32,20 +32,20 @@ class TextGenerator:
     @torch.no_grad()
     def generate(
         self,
-        prompt,
+        prompt_text: str,
         max_new_tokens=300,
         temperature=0.7,
     ):
 
         prompt_tokens = torch.tensor(
-            [self.tokenizer.encode(prompt)],
+            [self.tokenizer.encode(prompt_text)],
             dtype=torch.long,
             device=self.device,
         )
 
-        generated_tokens = generator(
+        generated_tokens = prompt(
             tokens=prompt_tokens,
-            generator=self.model,
+            model=self.model,
             context_length=self.context_length,
             max_new_tokens=max_new_tokens,
             temperature=temperature,
