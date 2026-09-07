@@ -17,9 +17,11 @@ class TrainingConfig:
 
     batch_size: int = 32
     learning_rate: float = 0.001        #the value added/subtracted to gradients
-    num_steps: int = 1000
-    eval_interval: int = 100
+    num_steps: int = 100
+    eval_interval: int = 10
     eval_batches: int = 20
+
+    num_train_samples: int | None = None  #None for all, or limit to N samples for testing
 
 
 #need to connect to config file or cli args

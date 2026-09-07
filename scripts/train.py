@@ -9,7 +9,7 @@ from src.infra.dataset.autoregressive import AutoRegressiveDataset
 from src.task.config import ModelConfig,TrainingConfig
 
 from src.task.model import TinyTransformerLM
-from src.task.training import train, evaluate
+from task.training.autoregressive import train, evaluate
 
 
 

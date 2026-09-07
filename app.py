@@ -5,7 +5,7 @@ from pathlib import Path
 from src.infra.tokenizer import CharacterTokenizer
 from src.task.config import ModelConfig
 from src.task.model import load_model
-from src.task.inference import TextGenerator
+from task.inference.inference import TextGenerator
 
 
 # Paths

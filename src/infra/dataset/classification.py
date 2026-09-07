@@ -1,6 +1,6 @@
 
 import torch
-from infra.tokenizer import CharacterTokenizer
+from src.infra.tokenizer import CharacterTokenizer
 
 
 class TextClassificationDataset:
@@ -10,14 +10,14 @@ class TextClassificationDataset:
         texts,
         labels,
         tokenizer: CharacterTokenizer,
+        max_length,             #we truncate anything after this length... we got a budget to keep ;-)
     ):
         if len(texts) != len(labels):
             raise ValueError(
-                "texts and labels must have the same length... why ?"
+                "texts and labels must have the same length"
             )
 
         self.texts = texts
-
         self.labels = torch.tensor(
             labels,
             dtype=torch.long,
@@ -29,7 +29,8 @@ class TextClassificationDataset:
         ]
 
         self.tokens, self.padding_mask = tokenizer.pad(
-            encoded
+            encoded,
+            max_length=max_length,
         )
 
         self.tokens = torch.tensor(
@@ -52,4 +53,6 @@ class TextClassificationDataset:
             self.padding_mask[index],
             self.labels[index],
         )
+
+
 
