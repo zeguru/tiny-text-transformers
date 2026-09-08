@@ -35,6 +35,7 @@ class TextGenerator:
         prompt_text: str,
         max_new_tokens=300,
         temperature=0.7,
+        top_p=None,
     ):
 
         prompt_tokens = torch.tensor(
@@ -49,6 +50,7 @@ class TextGenerator:
             context_length=self.context_length,
             max_new_tokens=max_new_tokens,
             temperature=temperature,
+            top_p=top_p,
         )
 
         return self.tokenizer.decode(
