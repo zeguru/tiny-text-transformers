@@ -24,3 +24,6 @@ Character-level Transformer classifier trained on AG News.
 
 ### Structured Output
 Coming next...
+
+### Hugging Faces
+https://huggingface.co/spaces/zeguru/tiny-transformers
