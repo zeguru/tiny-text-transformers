@@ -6,6 +6,7 @@ colorTo: purple
 sdk: gradio
 app_file: app.py
 pinned: false
+short_description: A set of tiny Transformers, from scratch
 ---
 
 # Tiny Text Transformers

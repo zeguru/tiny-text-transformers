@@ -4,13 +4,23 @@ import gradio as gr
 from pathlib import Path
 from src.infra.tokenizer import CharacterTokenizer
 from src.task.config import ModelConfig
-from src.task.model import load_model
-from src.task.inference.inference import TextGenerator
 
+from src.task.model import load_model, load_classifier_model
+
+from src.task.inference.inference import TextGenerator
+from src.task.inference.classify import TextClassifier
 
 # Paths
 # DATA_PATH = Path("data/tiny_shakespear.txt")
 MODEL_PATH = Path("checkpoints/tiny-text-transformer.pt")
+
+CLASSIFIER_MODEL_PATH = Path(
+    "checkpoints/news-classifier.pt"
+    )
+
+CLASSIFIER_TOKENIZER_PATH = Path(
+    "checkpoints/ag_news_tokenizer.json"
+    )
 
 # Model config
 config = ModelConfig()
@@ -32,15 +42,14 @@ model = load_model(
     )
 
 
-# Generator
+# A. Generator
 text_generator = TextGenerator(
     model=model,
     tokenizer=tokenizer,
     context_length=config.context_length,
     )
 
-
-# Gradio function
+# Text Generation
 @spaces.GPU
 def generate_text(
     prompt,
@@ -54,40 +63,129 @@ def generate_text(
         temperature=temperature,
         )
 
-
-# Gradio Interface
-demo = gr.Interface(
-    fn=generate_text,
-    inputs=[
-        gr.Textbox(
-            label="Prompt",
-            value="ROMEO:",
-            ),
-        gr.Slider(
-            minimum=10,
-            maximum=500,
-            value=300,
-            step=10,
-            label="Max new tokens",
-            ),
-        gr.Slider(
-            minimum=0.1,
-            maximum=1.5,
-            value=0.7,
-            step=0.1,
-            label="Temperature",
-            ),
-        ],
-    outputs=gr.Textbox(
-        label="Generated text",
-        lines=15,
-        ),
-    title="Tiny Text Transformer",
-    description=(
-        "A tiny character-level Transformer built from scratch in PyTorch, demonstrated on text generation and AG News classification."
-        ),
+# B. Classifier
+classifier_tokenizer = CharacterTokenizer.load(
+    CLASSIFIER_TOKENIZER_PATH
     )
 
+classifier_model = load_classifier_model(
+    checkpoint_path=CLASSIFIER_MODEL_PATH,
+    config=config,
+    vocab_size=classifier_tokenizer.vocab_size,
+    )
+
+text_classifier = TextClassifier(
+    model=classifier_model,
+    tokenizer=classifier_tokenizer,
+    context_length=config.context_length,
+    )
+
+CLASS_NAMES = [
+    "World",
+    "Sports",
+    "Business",
+    "Sci/Tech",
+]
+
+
+@spaces.GPU
+def classify_text(text):
+    prediction = text_classifier.classify(text)
+
+    return CLASS_NAMES[prediction]
+
+
+
+
+
+# Gradio Interface
+# demo = gr.Interface(
+#     fn=generate_text,
+#     inputs=[
+#         gr.Textbox(
+#             label="Prompt",
+#             value="ROMEO:",
+#             ),
+#         gr.Slider(
+#             minimum=10,
+#             maximum=500,
+#             value=300,
+#             step=10,
+#             label="Max new tokens",
+#             ),
+#         gr.Slider(
+#             minimum=0.1,
+#             maximum=1.5,
+#             value=0.7,
+#             step=0.1,
+#             label="Temperature",
+#             ),
+#         ],
+#     outputs=gr.Textbox(
+#         label="Generated text",
+#         lines=15,
+#         ),
+#     title="Tiny Text Transformer",
+#     description=(
+#         "A tiny character-level Transformer built from scratch in PyTorch, demonstrated on text generation and AG News classification."
+#         ),
+#     )
+
+with gr.Blocks() as demo:
+
+    gr.Markdown(
+        """
+        # Tiny Text Transformers
+
+        A set of tiny character-level Transformers built from first principles using Pytorch,
+        demonstrated on text Generation and text Classification.
+
+        Generation was trained on Shakespeare txt, Classification was trained on AG News (World, Sport, Business and Sci/Tech)
+
+        """
+    )
+
+    with gr.Tab("Text Generation"):
+        gr.Interface(
+            fn=generate_text,
+            inputs=[
+                gr.Textbox(
+                    label="Prompt",
+                    value="ROMEO:",
+                ),
+                gr.Slider(
+                    minimum=10,
+                    maximum=500,
+                    value=300,
+                    step=10,
+                    label="Max new tokens",
+                ),
+                gr.Slider(
+                    minimum=0.1,
+                    maximum=1.5,
+                    value=0.7,
+                    step=0.1,
+                    label="Temperature",
+                ),
+            ],
+            outputs=gr.Textbox(
+                label="Generated text",
+                lines=15,
+            ),
+        )
+
+    with gr.Tab("Text Classification"):
+        gr.Interface(
+            fn=classify_text,
+            inputs=gr.Textbox(
+                label="News text",
+                value="The newest Mac mini was announced on August to launch in stores on September",
+                lines=5,
+            ),
+            outputs=gr.Textbox(
+                label="Predicted category",
+            ),
+        )
 
 if __name__ == "__main__":
     demo.launch(
