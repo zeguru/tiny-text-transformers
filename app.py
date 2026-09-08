@@ -55,12 +55,14 @@ def generate_text(
     prompt,
     max_new_tokens,
     temperature,
+    top_p,
     ):
 
     return text_generator.generate(
         prompt_text=prompt,
         max_new_tokens=max_new_tokens,
         temperature=temperature,
+        top_p=top_p
         )
 
 # B. Classifier
@@ -95,41 +97,6 @@ def classify_text(text):
     return CLASS_NAMES[prediction]
 
 
-
-
-
-# Gradio Interface
-# demo = gr.Interface(
-#     fn=generate_text,
-#     inputs=[
-#         gr.Textbox(
-#             label="Prompt",
-#             value="ROMEO:",
-#             ),
-#         gr.Slider(
-#             minimum=10,
-#             maximum=500,
-#             value=300,
-#             step=10,
-#             label="Max new tokens",
-#             ),
-#         gr.Slider(
-#             minimum=0.1,
-#             maximum=1.5,
-#             value=0.7,
-#             step=0.1,
-#             label="Temperature",
-#             ),
-#         ],
-#     outputs=gr.Textbox(
-#         label="Generated text",
-#         lines=15,
-#         ),
-#     title="Tiny Text Transformer",
-#     description=(
-#         "A tiny character-level Transformer built from scratch in PyTorch, demonstrated on text generation and AG News classification."
-#         ),
-#     )
 
 with gr.Blocks() as demo:
 
@@ -166,6 +133,13 @@ with gr.Blocks() as demo:
                     value=0.7,
                     step=0.1,
                     label="Temperature",
+                ),
+                gr.Slider(
+                    minimum=0.1,
+                    maximum=1.0,
+                    value=0.9,
+                    step=0.1,
+                    label="Top P",
                 ),
             ],
             outputs=gr.Textbox(
