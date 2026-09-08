@@ -123,9 +123,17 @@ temp/
 *.sqlite3
 *.db
 
+
+# =========================
+# Jupyter
+# =========================
+.gradio/
+
+
 # =========================
 # uv
 # =========================
 # Keep uv.lock tracked.
 # Do NOT add uv.lock to .gitignore.
+
 

@@ -12,7 +12,7 @@ from src.task.inference.classify import TextClassifier
 
 # Paths
 # DATA_PATH = Path("data/tiny_shakespear.txt")
-MODEL_PATH = Path("checkpoints/tiny-text-transformer.pt")
+MODEL_PATH = Path("checkpoints/tiny_text_generator.pt")
 
 CLASSIFIER_MODEL_PATH = Path(
     "checkpoints/news-classifier.pt"
@@ -137,7 +137,7 @@ with gr.Blocks() as demo:
                 gr.Slider(
                     minimum=0.1,
                     maximum=1.0,
-                    value=0.9,
+                    value=0.8,
                     step=0.1,
                     label="Top P",
                 ),

@@ -10,28 +10,37 @@ from src.task.config import ModelConfig,TrainingConfig
 
 from src.task.model import TinyTransformerLM
 from src.task.training.autoregressive import train, evaluate
-
-
+from src.task.training.util import TrainingLogger, count_parameters
 
 def separator(title: str) -> None:
     print("\n" + "=" * 60)
     print(title)
     print("=" * 60)
 
+# Take stok
+logger = TrainingLogger(
+    "logs/text_generator.txt"
+    )
+
+
 # Runtime configs
 corpus = "data/tiny_shakespear.txt"
-checkpoint = "txt-transformer.pt"
+checkpoint = "tiny_text_generator.pt"
 
 # Configs
 separator("Configuration")
 
 torch.manual_seed(42)
 
+# Generator
 model_config = ModelConfig()
 training_config = TrainingConfig()
 
-print(model_config)
-print(training_config)
+training_config.num_steps = 10000 
+training_config.eval_interval = 1000
+
+logger.log(model_config)
+logger.log(training_config)
 
 
 # Load the corpus
@@ -43,7 +52,7 @@ text = data_path.read_text(
     encoding="utf-8",
 )
 
-print(f"Corpus length: {len(text):,} characters")
+logger.log(f"Corpus length: {len(text):,} characters")
 
 
 # Tokens
@@ -59,8 +68,8 @@ tokens = torch.tensor(
     dtype=torch.long,
 )
 
-print(f"Vocabulary size: {tokenizer.vocab_size}")
-print(f"Token count: {len(tokens):,}")
+logger.log(f"Vocabulary size: {tokenizer.vocab_size}")
+logger.log(f"Token count: {len(tokens):,}")
 
 
 # Train/Val/Test split
@@ -71,9 +80,9 @@ train_tokens, val_tokens, test_tokens = split_tokens(
     tokens,
     )
 
-print(f"Train tokens: {len(train_tokens):,}")
-print(f"Val tokens:   {len(val_tokens):,}")
-print(f"Test tokens:  {len(test_tokens):,}")
+logger.log(f"Train tokens: {len(train_tokens):,}")
+logger.log(f"Val tokens:   {len(val_tokens):,}")
+logger.log(f"Test tokens:  {len(test_tokens):,}")
 
 
 # Datasets
@@ -94,9 +103,9 @@ test_dataset = AutoRegressiveDataset(
     context_length=model_config.context_length,
     )
 
-print(f"Train examples: {len(train_dataset):,}")
-print(f"Val examples:   {len(val_dataset):,}")
-print(f"Test examples:  {len(test_dataset):,}")
+logger.log(f"Train examples: {len(train_dataset):,}")
+logger.log(f"Val examples:   {len(val_dataset):,}")
+logger.log(f"Test examples:  {len(test_dataset):,}")
 
 
 # Models
@@ -107,7 +116,7 @@ model = TinyTransformerLM(
     vocab_size=tokenizer.vocab_size,
     )
 
-print(model)
+logger.log(model)
 
 
 # Train........
@@ -130,8 +139,11 @@ test_loss = evaluate(
     training_config=training_config,
 )
 
-print(f"Test loss: {test_loss:.4f}")
+logger.log(f"Test loss: {test_loss:.4f}")
 
+
+
+logger.log(f"Parameters: {count_parameters(model):,}")
 
 # --------------------------------------------------
 # Save checkpoint
