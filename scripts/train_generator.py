@@ -10,16 +10,12 @@ from src.task.config import ModelConfig,TrainingConfig
 
 from src.task.model import TinyTransformerLM
 from src.task.training.autoregressive import train, evaluate
-from src.task.training.util import TrainingLogger, count_parameters
+from src.task.training.util import TrainingLogger, count_parameters, separator
 
-def separator(title: str) -> None:
-    print("\n" + "=" * 60)
-    print(title)
-    print("=" * 60)
 
-# Take stok
+# Custom Logger
 logger = TrainingLogger(
-    "logs/text_generator.txt"
+    "logs/text_generator.log"
     )
 
 
@@ -32,10 +28,10 @@ separator("Configuration")
 
 torch.manual_seed(42)
 
-# Generator
+# Configs
 model_config = ModelConfig()
 training_config = TrainingConfig()
-
+# Overrides
 training_config.num_steps = 10000 
 training_config.eval_interval = 1000
 

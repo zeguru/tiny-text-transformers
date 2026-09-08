@@ -15,7 +15,7 @@ from src.task.inference.classify import TextClassifier
 MODEL_PATH = Path("checkpoints/tiny_text_generator.pt")
 
 CLASSIFIER_MODEL_PATH = Path(
-    "checkpoints/news-classifier.pt"
+    "checkpoints/tiny-text-classifier.pt"
     )
 
 CLASSIFIER_TOKENIZER_PATH = Path(
@@ -70,12 +70,14 @@ classifier_tokenizer = CharacterTokenizer.load(
     CLASSIFIER_TOKENIZER_PATH
     )
 
+config.context_length = 384
 classifier_model = load_classifier_model(
     checkpoint_path=CLASSIFIER_MODEL_PATH,
     config=config,
     vocab_size=classifier_tokenizer.vocab_size,
     )
 
+config.context_length = 64
 text_classifier = TextClassifier(
     model=classifier_model,
     tokenizer=classifier_tokenizer,
