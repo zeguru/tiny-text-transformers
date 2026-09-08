@@ -1,3 +1,6 @@
+import json
+from pathlib import Path
+
 # Treats each character is a token 
 class CharacterTokenizer:
 
@@ -85,3 +88,44 @@ class CharacterTokenizer:
             masks.append(mask)
 
         return padded, masks
+
+
+    #Save the tokenizer
+    def save(self, path):
+        path = Path(path)
+
+        data = {
+            "version": 1,
+            "stoi": self.stoi,
+        }
+
+        path.write_text(
+            json.dumps(
+                data,
+                ensure_ascii=False,
+                indent=2,
+            ),
+            encoding="utf-8",
+        )
+
+#Load saved
+    @classmethod
+    def load(cls, path):
+        path = Path(path)
+
+        data = json.loads(
+            path.read_text(
+                encoding="utf-8",
+            )
+        )
+
+        tokenizer = cls.__new__(cls)
+
+        tokenizer.stoi = data["stoi"]
+
+        tokenizer.itos = {
+            index: token
+            for token, index in tokenizer.stoi.items()
+        }
+
+        return tokenizer

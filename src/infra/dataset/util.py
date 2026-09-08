@@ -1,6 +1,10 @@
 
 import torch
 
+from src.infra.dataset.autoregressive import AutoRegressiveDataset
+import pandas as pd
+import numpy as np
+
 
 def split_tokens(
     tokens: torch.Tensor,
@@ -84,3 +88,14 @@ def get_batch(
         torch.stack(inputs),
         torch.stack(targets),
     )
+
+# build text by joining the title and description columns
+def build_text(data: pd.DataFrame) -> pd.Series:
+    return (
+        data["Title"].fillna("").astype(str)
+        + " "
+        + data["Description"].fillna("").astype(str)
+    )
+
+def build_label(data: pd.DataFrame) -> np.ndarray:
+    return data["Class Index"].to_numpy() - 1

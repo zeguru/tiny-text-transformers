@@ -5,20 +5,24 @@ from pathlib import Path
 from src.infra.tokenizer import CharacterTokenizer
 from src.task.config import ModelConfig
 from src.task.model import load_model
-from task.inference.inference import TextGenerator
+from src.task.inference.inference import TextGenerator
 
 
 # Paths
-DATA_PATH = Path("data/tiny_shakespear.txt")
+# DATA_PATH = Path("data/tiny_shakespear.txt")
 MODEL_PATH = Path("checkpoints/tiny-text-transformer.pt")
 
 # Model config
 config = ModelConfig()
 
 # Tokenizer: in future use a reusable vocab instead of loading the entire corpus
-text = DATA_PATH.read_text(encoding="utf-8",)
-tokenizer = CharacterTokenizer(text)
+# text = DATA_PATH.read_text(encoding="utf-8",)
+# tokenizer = CharacterTokenizer(text)
 
+TEXT_TOKENIZER_PATH = Path("checkpoints/shakespeare_tokenizer.json")
+tokenizer = CharacterTokenizer.load(
+    TEXT_TOKENIZER_PATH
+    )
 
 # Recreate the model
 model = load_model(
@@ -33,7 +37,7 @@ text_generator = TextGenerator(
     model=model,
     tokenizer=tokenizer,
     context_length=config.context_length,
-)
+    )
 
 
 # Gradio function
@@ -45,7 +49,7 @@ def generate_text(
     ):
 
     return text_generator.generate(
-        prompt=prompt,
+        prompt_text=prompt,
         max_new_tokens=max_new_tokens,
         temperature=temperature,
         )
@@ -80,8 +84,7 @@ demo = gr.Interface(
         ),
     title="Tiny Text Transformer",
     description=(
-        "A tiny character-level transformer "
-        "trained on a Shakespeare corpus."
+        "A tiny character-level Transformer built from scratch in PyTorch, demonstrated on text generation and AG News classification."
         ),
     )
 

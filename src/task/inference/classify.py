@@ -67,6 +67,3 @@ class TextClassifier:
 
         return prediction.item()
     
-        # return self.tokenizer.decode(
-        #     generated_tokens[0].tolist()
-        # )

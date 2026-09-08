@@ -9,7 +9,7 @@ from src.infra.dataset.autoregressive import AutoRegressiveDataset
 from src.task.config import ModelConfig,TrainingConfig
 
 from src.task.model import TinyTransformerLM
-from task.training.autoregressive import train, evaluate
+from src.task.training.autoregressive import train, evaluate
 
 
 
@@ -50,6 +50,9 @@ print(f"Corpus length: {len(text):,} characters")
 separator("Tokenization")
 
 tokenizer = CharacterTokenizer(text)
+
+TEXT_TOKENIZER_PATH = Path("checkpoints/shakespeare_tokenizer.json")
+tokenizer.save(TEXT_TOKENIZER_PATH)
 
 tokens = torch.tensor(
     tokenizer.encode(text),

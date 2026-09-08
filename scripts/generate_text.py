@@ -7,13 +7,13 @@ from src.task.inference.inference import TextGenerator
 
 
 # Runtime configs
-corpus = "data/tiny_shakespear.txt"
+
 checkpoint = "checkpoints/tiny-text-transformer.pt"
 
-text = Path(corpus).read_text(encoding="utf-8")
-
-tokenizer = CharacterTokenizer(text)
-
+TEXT_TOKENIZER_PATH = Path("checkpoints/shakespeare-tokenizer.json")
+tokenizer = CharacterTokenizer.load(
+    TEXT_TOKENIZER_PATH
+    )
 
 # Conf
 

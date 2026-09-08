@@ -6,27 +6,18 @@ from src.infra.tokenizer import CharacterTokenizer
 from src.task.inference.classify import TextClassifier
 import pandas as pd
 import numpy as np
-
-def build_text(data: pd.DataFrame) -> list[str]:
-    return (
-        data["Title"].fillna("").astype(str)
-        + " "
-        + data["Description"].fillna("").astype(str)
-    ).tolist()
-
+from src.infra.dataset.util import build_text
 
 
 # Runtime configs
 # corpus = "data/tiny_shakespear.txt"
 checkpoint = "checkpoints/news-classifier.pt"
 
-TRAIN_PATH = Path("data/ag-news/train.csv")
-
-train_corpus = pd.read_csv(TRAIN_PATH)
-train_text = build_text(train_corpus)
-
-
-tokenizer = CharacterTokenizer("".join(train_text))
+# CLASS_TOKENIZER_PATH = "ag_news_tokenizer.json"
+CLASS_TOKENIZER_PATH = Path("checkpoints/ag_news_tokenizer.json")
+tokenizer = CharacterTokenizer.load(
+    CLASS_TOKENIZER_PATH
+    )
 
 CLASS_NAMES = [
     "World",
@@ -34,7 +25,6 @@ CLASS_NAMES = [
     "Business",
     "Sci/Tech",
     ]
-
 
 # Conf
 config = ModelConfig()

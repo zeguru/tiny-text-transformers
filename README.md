@@ -8,6 +8,18 @@ app_file: app.py
 pinned: false
 ---
 
-# Tiny Text Transformer
+# Tiny Text Transformers
 
-A tiny character-level transformer trained on a Shakespeare corpus.
+A small Transformer built from scratch in PyTorch,
+with multiple NLP tasks built on the same Transformer core.
+
+## Tasks
+
+### Text Generation
+Character-level autoregressive language model trained on Shakespeare.
+
+### Text Classification
+Character-level Transformer classifier trained on AG News.
+
+### Structured Output
+Coming next...

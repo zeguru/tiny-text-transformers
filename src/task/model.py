@@ -15,11 +15,6 @@ class TinyTransformerLM(nn.Module):
     ):
         super().__init__()
 
-        # self.embedding = nn.Embedding(
-        #     vocab_size,
-        #     config.d_model,
-        # )
-
         self.input_representation = InputRepresentation(
             vocab_size=vocab_size,
             context_length=config.context_length,
