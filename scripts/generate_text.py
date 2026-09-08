@@ -8,7 +8,7 @@ from src.task.inference.inference import TextGenerator
 
 # Runtime configs
 
-checkpoint = "checkpoints/tiny-text-transformer.pt"
+checkpoint = "checkpoints/tiny_text_generator.pt"
 
 TEXT_TOKENIZER_PATH = Path("checkpoints/shakespeare_tokenizer.json")
 tokenizer = CharacterTokenizer.load(
@@ -41,7 +41,7 @@ output = text_generator.generate(
     prompt_text="ROMEO:",
     max_new_tokens=300,
     temperature=0.7,
-    top_p=0.9
+    top_p=0.8
 )
 
 print(output)
