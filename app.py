@@ -12,7 +12,7 @@ from src.task.inference.classify import TextClassifier
 
 # Paths
 # DATA_PATH = Path("data/tiny_shakespear.txt")
-MODEL_PATH = Path("checkpoints/tiny_text_generator.pt")
+MODEL_PATH = Path("checkpoints/mh_tiny_text_generator.pt")
 
 CLASSIFIER_MODEL_PATH = Path(
     "checkpoints/tiny_text_classifier.pt"
@@ -24,6 +24,7 @@ CLASSIFIER_TOKENIZER_PATH = Path(
 
 # Model config
 config = ModelConfig()
+config.number_of_heads = 2
 
 # Tokenizer: in future use a reusable vocab instead of loading the entire corpus
 # text = DATA_PATH.read_text(encoding="utf-8",)
@@ -34,7 +35,8 @@ tokenizer = CharacterTokenizer.load(
     TEXT_TOKENIZER_PATH
     )
 
-# Recreate the model
+# Recreate the generator model
+config.number_of_heads = 2
 model = load_model(
     checkpoint_path=MODEL_PATH,
     config=config,
@@ -71,6 +73,7 @@ classifier_tokenizer = CharacterTokenizer.load(
     )
 
 config.context_length = 384
+config.number_of_heads = 1
 classifier_model = load_classifier_model(
     checkpoint_path=CLASSIFIER_MODEL_PATH,
     config=config,

@@ -15,19 +15,21 @@ class TinyTransformerLM(nn.Module):
     ):
         super().__init__()
 
+        print("At TinyTransformerLM")
+
         self.input_representation = InputRepresentation(
             vocab_size=vocab_size,
             context_length=config.context_length,
             d_model=config.d_model,
             )
-
         self.transformer = Transformer(
             d_model=config.d_model,
             d_ff=config.d_ff,
             context_length=config.context_length,
             num_layers=config.num_layers,
+            number_of_heads=config.number_of_heads,
             dropout=config.dropout,
-            #padding mask here ?
+            #padding mask here 
         )
 
         self.head = nn.Linear(
@@ -57,6 +59,8 @@ class TinyClassifier(nn.Module):
         num_classes=4,
     ):
         super().__init__()
+        
+        print("At TinyClassifier")
 
         self.input_representation = InputRepresentation(
             vocab_size=vocab_size,
@@ -69,6 +73,7 @@ class TinyClassifier(nn.Module):
             d_ff=config.d_ff,
             context_length=config.context_length,
             num_layers=config.num_layers,
+            number_of_heads=config.number_of_heads,
             dropout=config.dropout,
         )
 

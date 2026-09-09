@@ -8,7 +8,7 @@ class ModelConfig:
     d_model: int = 64       #model dim
     d_ff: int = 256         #feed forward dim
     num_layers: int = 2     #transformer blocks
-
+    number_of_heads: int = 1
     dropout: float = 0.1    #percent. avoid overfitting, break emerging biases
 
 
@@ -27,5 +27,5 @@ class TrainingConfig:
 #need to connect to config file or cli args
 @dataclass
 class RuntimeConfig:
-    number_of_heads: int = 4
+    number_of_heads: int = 2
     

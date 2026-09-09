@@ -12,7 +12,8 @@ class Transformer(nn.Module):
         d_ff: int,
         context_length: int,
         num_layers: int,
-        dropout = 0.1,
+        number_of_heads: int,
+        dropout = 0.1
     ):
         super().__init__()
 
@@ -22,6 +23,7 @@ class Transformer(nn.Module):
                 d_ff=d_ff,
                 context_length=context_length,
                 dropout=dropout,
+                number_of_heads=number_of_heads
             )
             for _ in range(num_layers)
         ])
