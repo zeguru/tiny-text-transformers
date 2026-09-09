@@ -13,35 +13,39 @@ from src.task.model import TinyTransformerLM, TinyClassifier
 from src.task.training.classification import train
 import pandas as pd
 import numpy as np
+from src.task.training.util import TrainingLogger, count_parameters, separator
 
 
 
-def separator(title: str) -> None:
-    print("\n" + "=" * 60)
-    print(title)
-    print("=" * 60)
-
-separator("Helpers")
-
+# Custom Logger
+logger = TrainingLogger(
+    "logs/text_classifier.log"
+    )
 
 
 # Configs
 separator("Configuration")
 
-# torch.manual_seed(42)
-
+torch.manual_seed(42)
+# Configs
 model_config = ModelConfig()
 training_config = TrainingConfig()
 
-print(model_config)
-print(training_config)
+# Overrides
+model_config.context_length = 384
+training_config.num_steps = 10 
+training_config.eval_interval = 1
+training_config.num_train_samples = None
+
+logger.log(model_config)
+logger.log(training_config)
 
 # Load the corpus
 separator("Corpus")
 
 TRAIN_PATH = Path("data/ag-news/train.csv")
 TEST_PATH = Path("data/ag-news/test.csv")
-checkpoint = "news-classifier.pt"
+checkpoint = "tiny-text-classifier.pt"
 
 if not TRAIN_PATH.exists():
     raise FileNotFoundError(f"Training file not found: {TRAIN_PATH}")

@@ -32,3 +32,10 @@ def count_parameters(model):
         f"Parameters: "
         f"{count_parameters(model):,}"
         )
+
+
+
+def separator(title: str) -> None:
+    print("\n" + "=" * 60)
+    print(title)
+    print("=" * 60)
