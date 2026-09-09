@@ -45,7 +45,7 @@ separator("Corpus")
 
 TRAIN_PATH = Path("data/ag-news/train.csv")
 TEST_PATH = Path("data/ag-news/test.csv")
-checkpoint = "tiny-text-classifier.pt"
+checkpoint = "tiny_text_classifier.pt"
 
 if not TRAIN_PATH.exists():
     raise FileNotFoundError(f"Training file not found: {TRAIN_PATH}")

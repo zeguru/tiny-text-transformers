@@ -11,7 +11,7 @@ from src.infra.dataset.util import build_text
 
 # Runtime configs
 # corpus = "data/tiny_shakespear.txt"
-checkpoint = "checkpoints/tiny-text-classifier.pt"
+checkpoint = "checkpoints/tiny_text_classifier.pt"
 
 # CLASS_TOKENIZER_PATH = "ag_news_tokenizer.json"
 CLASS_TOKENIZER_PATH = Path("checkpoints/ag_news_tokenizer.json")
