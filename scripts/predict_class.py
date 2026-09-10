@@ -11,7 +11,7 @@ from src.infra.dataset.util import build_text
 
 # Runtime configs
 # corpus = "data/tiny_shakespear.txt"
-checkpoint = "checkpoints/tiny_text_classifier.pt"
+checkpoint = "checkpoints/mh_tiny_text_classifier.pt"
 
 # CLASS_TOKENIZER_PATH = "ag_news_tokenizer.json"
 CLASS_TOKENIZER_PATH = Path("checkpoints/ag_news_tokenizer.json")
@@ -28,6 +28,7 @@ CLASS_NAMES = [
 
 # Conf
 model_config = ModelConfig()
+model_config.number_of_heads = 2
 model_config.context_length = 384
 
 

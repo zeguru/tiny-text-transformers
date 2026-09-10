@@ -19,31 +19,36 @@ class MultiHeadAttention(nn.Module):
 
         self.d_model = d_model
         self.number_of_heads = number_of_heads
-        self.head_dim = d_model // number_of_heads
+        self.head_dim = d_model // number_of_heads      #spreads the d_model across the heads. each receiving a portion of the full...
 
+        #Query projection. Wq
         self.query = nn.Linear(
             d_model,
             d_model,
             bias=False,
             )
 
+        #Key projection. Wk
         self.key = nn.Linear(
             d_model,
             d_model,
             bias=False,
             )
 
+        #Value projection. Wv
         self.value = nn.Linear(
             d_model,
             d_model,
             bias=False,
             )
 
+        #Output projection... why square ?
         self.output_projection = nn.Linear(
             d_model,
             d_model,
             )
 
+        #Causal mask. Mask future tokens to prevent `leaking answers`. True -> real token
         self.register_buffer(
             "mask",
             torch.triu(
@@ -95,7 +100,7 @@ class MultiHeadAttention(nn.Module):
         )
 
         # -------------------------------------------------
-        # Move heads before sequence dimension
+        # Move heads before sequence dimension. Why transpose (1,2) before (-2,-1) ?
         # -------------------------------------------------
 
         Q = Q.transpose(1, 2)
@@ -122,7 +127,7 @@ class MultiHeadAttention(nn.Module):
 
         if padding_mask is not None:
             scores = scores.masked_fill(
-                ~padding_mask[:, None, :],
+                ~padding_mask[:, None, None, :],        #Man ! the extra `None` fixed the classifier bug when doing multihead
                 float("-inf"),
             )
 

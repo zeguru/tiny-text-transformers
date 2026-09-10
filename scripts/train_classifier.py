@@ -33,6 +33,8 @@ training_config = TrainingConfig()
 
 # Overrides
 model_config.context_length = 384
+model_config.number_of_heads = 2
+
 training_config.num_steps = 10 
 training_config.eval_interval = 1
 training_config.num_train_samples = None
@@ -45,7 +47,7 @@ separator("Corpus")
 
 TRAIN_PATH = Path("data/ag-news/train.csv")
 TEST_PATH = Path("data/ag-news/test.csv")
-checkpoint = "tiny_text_classifier.pt"
+checkpoint = "mh_tiny_text_classifier.pt"
 
 if not TRAIN_PATH.exists():
     raise FileNotFoundError(f"Training file not found: {TRAIN_PATH}")
