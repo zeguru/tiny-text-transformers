@@ -21,7 +21,7 @@ logger = TrainingLogger(
 
 # Runtime configs
 corpus = "data/tiny_shakespear.txt"
-checkpoint = "tiny_text_generator.pt"
+checkpoint = "mh_tiny_text_generator.pt"
 
 # Configs
 separator("Configuration")
@@ -32,6 +32,7 @@ torch.manual_seed(42)
 model_config = ModelConfig()
 training_config = TrainingConfig()
 # Overrides
+model_config.number_of_heads = 2
 training_config.num_steps = 10000 
 training_config.eval_interval = 1000
 

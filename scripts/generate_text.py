@@ -8,7 +8,7 @@ from src.task.inference.inference import TextGenerator
 
 # Runtime configs
 
-checkpoint = "checkpoints/tiny_text_generator.pt"
+checkpoint = "checkpoints/mh_tiny_text_generator.pt"
 
 TEXT_TOKENIZER_PATH = Path("checkpoints/shakespeare_tokenizer.json")
 tokenizer = CharacterTokenizer.load(
@@ -18,6 +18,7 @@ tokenizer = CharacterTokenizer.load(
 # Conf
 
 config = ModelConfig()
+config.number_of_heads = 2
 
 
 # Load model/checkpoint from file 
