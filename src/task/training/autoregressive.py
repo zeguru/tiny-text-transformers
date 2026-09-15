@@ -21,6 +21,10 @@ def train(
         lr=training_config.learning_rate,
         )
 
+    train_history = []
+    val_history = []
+    steps = []
+
     model.train()
 
     for step in range(training_config.num_steps):
@@ -38,6 +42,10 @@ def train(
                 dataset=val_dataset,
                 training_config=training_config,
                 )
+
+            steps.append(step)
+            train_history.append(train_loss)
+            val_history.append(val_loss)
 
             print(
                 f"step {step:4d} | "
@@ -61,7 +69,8 @@ def train(
         loss.backward()
         optimizer.step()
 
-    return model
+    #return model
+    return model, steps, train_history, val_history
 
 
 @torch.no_grad()    #do not calculate gradients

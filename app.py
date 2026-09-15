@@ -12,7 +12,7 @@ from src.task.inference.classify import TextClassifier
 
 # Paths
 # DATA_PATH = Path("data/tiny_shakespear.txt")
-GENERATOR_MODEL_PATH = Path("checkpoints/mh_tiny_text_generator.pt")
+GENERATOR_MODEL_PATH = Path("checkpoints/tiny_poet.pt")
 
 CLASSIFIER_MODEL_PATH = Path(
     "checkpoints/mh_tiny_text_classifier.pt"
@@ -22,31 +22,22 @@ CLASSIFIER_TOKENIZER_PATH = Path(
     "checkpoints/ag_news_tokenizer.json"
     )
 
-# Model config
-config = ModelConfig()
-config.number_of_heads = 2
-
-# Tokenizer: in future use a reusable vocab instead of loading the entire corpus
-# text = DATA_PATH.read_text(encoding="utf-8",)
-# tokenizer = CharacterTokenizer(text)
 
 TEXT_TOKENIZER_PATH = Path("checkpoints/shakespeare_tokenizer.json")
 tokenizer = CharacterTokenizer.load(TEXT_TOKENIZER_PATH)
 
-# Recreate the generator model
-config.number_of_heads = 2
+generator_config = ModelConfig(context_length=128, d_model=128, d_ff=512, num_layers=4, number_of_heads=4)
+
 model = load_model(
     checkpoint_path=GENERATOR_MODEL_PATH,
-    config=config,
+    config=generator_config,
     vocab_size=tokenizer.vocab_size,
     )
 
-
-# A. Generator
 text_generator = TextGenerator(
     model=model,
     tokenizer=tokenizer,
-    context_length=config.context_length,
+    context_length=generator_config.context_length,
     )
 
 # Text Generation
@@ -68,18 +59,18 @@ def generate_text(
 # B. Classifier
 classifier_tokenizer = CharacterTokenizer.load(CLASSIFIER_TOKENIZER_PATH)
 
-config.context_length = 384
-config.number_of_heads = 2
+classifier_config = ModelConfig(context_length=384, d_model=64, d_ff=256, num_layers=2)
+
 classifier_model = load_classifier_model(
     checkpoint_path=CLASSIFIER_MODEL_PATH,
-    config=config,
+    config=classifier_config,
     vocab_size=classifier_tokenizer.vocab_size,
     )
 
 text_classifier = TextClassifier(
     model=classifier_model,
     tokenizer=classifier_tokenizer,
-    context_length=config.context_length,
+    context_length=classifier_config.context_length,
     )
 
 CLASS_NAMES = [

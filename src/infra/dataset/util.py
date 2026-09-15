@@ -10,7 +10,7 @@ def split_tokens(
     tokens: torch.Tensor,
     train_ratio: float = 0.90,
     val_ratio: float = 0.05,
-) -> tuple[
+    ) -> tuple[
     torch.Tensor,
     torch.Tensor,
     torch.Tensor,
