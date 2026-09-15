@@ -8,7 +8,7 @@ class ModelConfig:
     d_model: int = 64       #model dim
     d_ff: int = 256         #feed forward dim
     num_layers: int = 2     #transformer blocks
-    number_of_heads: int = 1
+    number_of_heads: int = 2
     dropout: float = 0.1    #percent. avoid overfitting, break emerging biases
 
 

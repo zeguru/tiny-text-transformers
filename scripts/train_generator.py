@@ -29,10 +29,10 @@ separator("Configuration")
 torch.manual_seed(42)
 
 # Configs
-model_config = ModelConfig()
+model_config = ModelConfig(context_length=128, d_model=128, d_ff=512, num_layers=4, number_of_heads=4)
+
 training_config = TrainingConfig()
 # Overrides
-model_config.number_of_heads = 2
 training_config.num_steps = 10000 
 training_config.eval_interval = 1000
 
@@ -119,13 +119,19 @@ logger.log(model)
 # Train........
 separator("Training")
 
-train(
+# train(
+#     model=model,
+#     train_dataset=train_dataset,
+#     val_dataset=val_dataset,
+#     training_config=training_config,
+#     )
+
+model, steps, train_history, val_history = train(
     model=model,
     train_dataset=train_dataset,
     val_dataset=val_dataset,
     training_config=training_config,
     )
-
 
 # Final test evaluation
 separator("Test Evaluation")

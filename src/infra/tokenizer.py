@@ -50,7 +50,15 @@ class CharacterTokenizer:
             for token_id in token_ids
             if token_id != self.pad_token_id
         )
-
+    
+    #do not assume tokenids are python integerser
+    # def decode(self, token_ids):
+    #     return "".join(
+    #         self.itos[int(token_id)]
+    #         for token_id in token_ids
+    #         if int(token_id) != self.pad_token_id
+    #     )
+    
     def pad(
             self,
             sequences,
