@@ -23,7 +23,9 @@ CLASSIFIER_TOKENIZER_PATH = Path(
     )
 
 
-TEXT_TOKENIZER_PATH = Path("checkpoints/shakespeare_tokenizer.json")
+# TEXT_TOKENIZER_PATH = Path("checkpoints/shakespeare_tokenizer.json")
+TEXT_TOKENIZER_PATH = Path("checkpoints/shakespear_stories_tokenizer.json")
+
 tokenizer = CharacterTokenizer.load(TEXT_TOKENIZER_PATH)
 
 generator_config = ModelConfig(context_length=128, d_model=128, d_ff=512, num_layers=4, number_of_heads=4)
@@ -96,10 +98,11 @@ with gr.Blocks() as demo:
         # Tiny Text Transformers
 
         A set of tiny character-level Transformers built from first principles using Pytorch,
-        demonstrated on text Generation and text Classification.
+        demonstrated with text Generation and text Classification.
 
-        Generation was trained on Shakespeare txt, Classification was trained on AG News (World, Sport, Business and Sci/Tech)
+        Generation was trained on Shakespeare txt & Tiny Stories, Classification was trained on AG News (World, Sport, Business and Sci/Tech)
 
+        The Text Generator has learned 1. spelling, 2. shakespeare dialogue style 3. punctuation and and very soon 4. valid english phrases
         """
     )
 
