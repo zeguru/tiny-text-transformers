@@ -3,7 +3,8 @@ from dataclasses import dataclass
 @dataclass  #thank you v3.7
 class ModelConfig:
 
-    context_length: int = 64
+    context_length: int = 64    #disambiguation is needed here... my head is spinning
+    # max_length: int = 512       #length of single input (truncation + padding concerns)
 
     d_model: int = 64       #model dim
     d_ff: int = 256         #feed forward dim
