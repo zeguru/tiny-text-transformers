@@ -50,12 +50,14 @@ class TextExtractor:
 
         token_tensor = torch.tensor(
             padded_ids[0],
-            dtype=torch.long
+            dtype=torch.long,
+            device=self.device,
             )
 
         padding_mask = torch.tensor(
             mask_ids,
-            dtype=torch.bool
+            dtype=torch.bool,
+            device=self.device,
             )
 
         #Typically -> embedding -> transformer -> start,end logits
