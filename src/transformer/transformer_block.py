@@ -11,13 +11,11 @@ class TransformerBlock(nn.Module):
         super().__init__()
 
         self.number_of_heads = number_of_heads
-        print("number of heads: ", number_of_heads)
 
+        print(f"\tTransformer Block: number of heads: {number_of_heads}")
         if self.number_of_heads == 1:
-            print("single head")
             self.attention = Attention(d_model, context_length)
         else:
-            print("multi head")
             self.attention = MultiHeadAttention(d_model, context_length, number_of_heads)
             
         self.feed_forward = FeedForward(d_model, d_ff)

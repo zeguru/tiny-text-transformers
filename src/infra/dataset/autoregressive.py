@@ -8,6 +8,7 @@ from src.infra.tokenizer import CharacterTokenizer
 # Auto Regressive Model: 
 # a statistical tool that predicts future values in a sequence by using past values from the same sequence
 class AutoRegressiveDataset:
+    
     """Dataset for autoregressive language modeling.
 
     A token sequence is converted into overlapping

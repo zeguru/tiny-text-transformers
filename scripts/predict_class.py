@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from src.task.config import ModelConfig
-from src.task.model import load_classifier_model
+from src.task.model import load_model, load_classifier_model
 from src.infra.tokenizer import CharacterTokenizer
 from src.task.inference.classify import TextClassifier
 import pandas as pd
@@ -33,12 +33,18 @@ model_config.context_length = 384
 
 
 # Load model/checkpoint from file 
-model = load_classifier_model(
+# model = load_classifier_model(
+#     checkpoint_path=checkpoint,
+#     config=model_config,
+#     vocab_size=tokenizer.vocab_size,
+# )
+
+model = load_model(
     checkpoint_path=checkpoint,
     config=model_config,
     vocab_size=tokenizer.vocab_size,
-)
-
+    type="CLASSIFIER"
+    )
 
 # generator
 text_classifier = TextClassifier(
