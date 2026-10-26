@@ -37,9 +37,12 @@ def train(
 
     for epoch in range(training_config.num_steps):
 
-        print(f"Epoch {epoch+1}/{training_config.num_steps}")
+        print(f"\nEpoch {epoch+1}/{training_config.num_steps}")
 
-        for tokens, padding_mask, start_position, end_position in train_loader:
+        #for tokens, padding_mask, start_position, end_position in train_loader:
+        for batch_idx, (tokens, padding_mask, start_position, end_position) in enumerate(train_loader):
+
+            print(f"\r\tProcessing batch : {batch_idx+1}", end=f" of {num_batches}  ", flush=True)
 
             start_logits, end_logits = model(tokens,padding_mask)
 

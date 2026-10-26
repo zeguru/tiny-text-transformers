@@ -2,7 +2,8 @@ from pathlib import Path
 
 from src.task.config import ModelConfig
 from src.task.model import load_model
-from src.infra.tokenizer import CharacterTokenizer
+from src.infra.tokenizer.character import CharacterTokenizer
+from src.infra.tokenizer.bpe import BPETokenizer
 from src.task.inference.extract import TextExtractor
 import pandas as pd
 import numpy as np
@@ -13,19 +14,33 @@ from src.infra.dataset.util import build_text
 # corpus = "data/tiny_shakespear.txt"
 checkpoint = "checkpoints/tiny_answering.pt"
 
-QA_TOKENIZER_PATH = Path("checkpoints/qa_tokenizer.json")
-if not QA_TOKENIZER_PATH.exists():
-    raise FileNotFoundError(f"Tokenizer file not found: {QA_TOKENIZER_PATH}")
+CHAR_TOKENIZER_PATH = Path("checkpoints/qa_tokenizer.json")
+BPE_TOKENIZER_PATH = Path("checkpoints/bpe_tokenizer.json")
 
-tokenizer = CharacterTokenizer.load(QA_TOKENIZER_PATH)
+if not CHAR_TOKENIZER_PATH.exists():
+    raise FileNotFoundError(f"Char Tokenizer file not found: {CHAR_TOKENIZER_PATH}")
 
+if not BPE_TOKENIZER_PATH.exists():
+    raise FileNotFoundError(f"BPE Tokenizer file not found: {BPE_TOKENIZER_PATH}")
+
+
+char_tokenizer = CharacterTokenizer.load(CHAR_TOKENIZER_PATH)
+bpe_tokenizer = BPETokenizer.load(BPE_TOKENIZER_PATH)
+
+#Choose the tokenizer... manual for now
+tokenizer = char_tokenizer
 
 # Conf
-model_config = ModelConfig()
-# model_config.number_of_heads = 2
-model_config.d_model=64
-model_config.context_length = 512
+# model_config = ModelConfig()
+# # model_config.number_of_heads = 2
+# model_config.d_model=64
+# model_config.context_length = 512
 
+model_config = ModelConfig(
+    d_model=128, 
+    number_of_heads=2, 
+    context_length=1024
+    )
 
 model = load_model(
     checkpoint_path=checkpoint,
@@ -46,8 +61,8 @@ print("Task worker \n", text_extractor)
 
 
 # do generate
-context = "The \"Big Five\" game animals of Africa, that is the lion, leopard, buffalo, rhinoceros, and elephant, can be found in Kenya and in the Masai Mara in particular. A significant population of other wild animals, reptiles and birds can be found in the national parks and game reserves in the country. The annual animal migration occurs between June and September with millions of animals taking part, attracting valuable foreign tourism. Two million wildebeest migrate a distance of 2,900 kilometres (1,802 mi) from the Serengeti in neighbouring Tanzania to the Masai Mara in Kenya, in a constant clockwise fashion, searching for food and water supplies. This Serengeti Migration of the wildebeest is a curious spectacle listed among the 10 Natural Wonders of Africa." 
-question = "Where in Kenya can you find the big five"
+context = "Throughout the centuries, the Kenyan Coast has played host to many merchants and explorers. Among the cities that line the Kenyan coast is the City of Malindi. It has remained an important Swahili settlement since the 14th century and once rivalled Mombasa for dominance in the African Great Lakes region. Malindi has traditionally been a friendly port city for foreign powers. In 1414, the Chinese trader and explorer Zheng He representing the Ming Dynasty visited the East African coast on one of his last 'treasure voyages'. Malindi authorities welcomed the Portuguese explorer Vasco da Gama in 1498." 
+question = "Where do many merchants and explorers go?"
 
 token_tensor, predicted_start, predicted_end = text_extractor.extract(
     context_text=context,

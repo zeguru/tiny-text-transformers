@@ -2,7 +2,7 @@ from pathlib import Path
 
 from src.task.config import ModelConfig
 from src.task.model import load_model, load_classifier_model
-from src.infra.tokenizer import CharacterTokenizer
+from src.infra.tokenizer.character import CharacterTokenizer
 from src.task.inference.classify import TextClassifier
 import pandas as pd
 import numpy as np

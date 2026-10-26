@@ -99,3 +99,18 @@ def build_text(data: pd.DataFrame) -> pd.Series:
 
 def build_label(data: pd.DataFrame) -> np.ndarray:
     return data["Class Index"].to_numpy() - 1
+
+def inspect_tokens(tokenizer, text):
+    encoding = tokenizer.tokenizer.encode(text)
+
+    for token_id, token in zip(
+        encoding.ids,
+        encoding.tokens,
+    ):
+        decoded = tokenizer.tokenizer.decode([token_id])
+
+        print(
+            f"ID: {token_id:>5} | "
+            f"Token: {token!r:<20} | "
+            f"Decoded: {decoded!r}"
+        )

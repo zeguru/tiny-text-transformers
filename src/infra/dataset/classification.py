@@ -1,6 +1,6 @@
 
 import torch
-from src.infra.tokenizer import CharacterTokenizer
+from src.infra.tokenizer.character import CharacterTokenizer
 
 
 class TextClassificationDataset:

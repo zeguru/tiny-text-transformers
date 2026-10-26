@@ -3,7 +3,7 @@ from pathlib import Path
 import torch
 
 from src.infra.dataset.util import split_tokens, get_batch
-from src.infra.tokenizer import CharacterTokenizer
+from src.infra.tokenizer.character import CharacterTokenizer
 from src.infra.dataset.autoregressive import AutoRegressiveDataset
 
 from src.task.config import ModelConfig,TrainingConfig

@@ -4,7 +4,7 @@ import torch
 
 from src.infra.dataset.classification import TextClassificationDataset
 from src.infra.dataset.util import split_tokens, get_batch, build_label, build_text
-from src.infra.tokenizer import CharacterTokenizer
+from src.infra.tokenizer.character import CharacterTokenizer
 from src.infra.dataset.autoregressive import AutoRegressiveDataset
 
 from src.task.config import ModelConfig,TrainingConfig
