@@ -2,8 +2,11 @@ from pathlib import Path
 
 import torch
 import json
+
+from datetime import datetime
 from src.infra.dataset.util import split_tokens, get_batch
-from src.infra.tokenizer import CharacterTokenizer
+from src.infra.tokenizer.character import CharacterTokenizer
+from src.infra.tokenizer.bpe import BPETokenizer
 from src.infra.dataset.answering import QuestionAnsweringDataset
 from torch.utils.data import random_split
 
@@ -26,14 +29,23 @@ separator("Configuration")
 torch.manual_seed(42)
 
 # Configs
-model_config = ModelConfig()
-training_config = TrainingConfig()
+model_config = ModelConfig(
+    d_model=128, 
+    number_of_heads=2, 
+    context_length=1024
+    )
+
+training_config = TrainingConfig(
+    num_steps=100,
+    eval_interval=10,
+    batch_size=64
+    )
 
 # Overrides
-model_config.context_length=512
+# model_config.context_length=512
 
-training_config.num_steps = 300 
-training_config.eval_interval = 10
+# training_config.num_steps = 300 
+# training_config.eval_interval = 10
 
 logger.log(model_config)
 logger.log(training_config)
@@ -47,18 +59,29 @@ torch.manual_seed(42)
 
 
 SQUAD_PATH = Path("data/squad/dev-v1.1.json")
-QA_TOKENIZER_PATH = Path("checkpoints/qa_tokenizer.json")
+
+CHAR_TOKENIZER_PATH = Path("checkpoints/qa_tokenizer.json")
+BPE_TOKENIZER_PATH = Path("checkpoints/bpe_tokenizer.json")
 
 print(f"Squad file: {SQUAD_PATH}")
-print(f"Tokenizer file:  {QA_TOKENIZER_PATH}")
+print(f"Tokenizer file:  {CHAR_TOKENIZER_PATH}")
+print(f"Tokenizer file:  {BPE_TOKENIZER_PATH}")
 
 if not SQUAD_PATH.exists():
     raise FileNotFoundError(f"Squad file not found: {SQUAD_PATH}")
 
-if not QA_TOKENIZER_PATH.exists():
-    raise FileNotFoundError(f"Tokenizer file not found: {QA_TOKENIZER_PATH}")
+if not CHAR_TOKENIZER_PATH.exists():
+    raise FileNotFoundError(f"Character Tokenizer file not found: {CHAR_TOKENIZER_PATH}")
 
-tokenizer = CharacterTokenizer.load(QA_TOKENIZER_PATH)
+if not BPE_TOKENIZER_PATH.exists():
+    raise FileNotFoundError(f"BPE Tokenizer file not found: {BPE_TOKENIZER_PATH}")
+
+char_tokenizer = CharacterTokenizer.load(CHAR_TOKENIZER_PATH)
+bpe_tokenizer = BPETokenizer.load(BPE_TOKENIZER_PATH)
+
+#Choose the tokenizer... manual for now
+tokenizer = char_tokenizer
+
 vocab_size = tokenizer.vocab_size
 
 with SQUAD_PATH.open("r", encoding="utf-8") as file:
@@ -145,6 +168,7 @@ logger.log(model)
 # Train........
 separator("Training")
 
+print(f"\tStart: {datetime.now()}===")
 
 model = train(
     model=model,
@@ -153,7 +177,7 @@ model = train(
     training_config=training_config,
     )
 
-
+print(f"\tEnd: {datetime.now()}===")
 
 logger.log(f"Parameters: {count_parameters(model):,}")
 

@@ -1,6 +1,6 @@
 import torch
 from pathlib import Path
-from src.infra.tokenizer import CharacterTokenizer
+from src.infra.tokenizer.character import CharacterTokenizer
 
 print(f"PyTorch version: {torch.__version__}")
 print(f"MPS available: {torch.backends.mps.is_available()}")

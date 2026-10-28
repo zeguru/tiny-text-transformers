@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import torch
 
-from src.infra.tokenizer import CharacterTokenizer
+from src.infra.tokenizer.character import CharacterTokenizer
 
 
 # Auto Regressive Model: 

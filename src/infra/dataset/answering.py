@@ -1,6 +1,6 @@
 import torch
 from torch.utils.data import Dataset
-from src.infra.tokenizer import CharacterTokenizer
+from src.infra.tokenizer.character import CharacterTokenizer
 
 
 class QuestionAnsweringDataset(Dataset):
@@ -23,7 +23,7 @@ class QuestionAnsweringDataset(Dataset):
     def __init__(
         self,
         records,
-        tokenizer: CharacterTokenizer,
+        tokenizer: CharacterTokenizer,      #choose tokenizer
         max_length,
         ):
 

@@ -2,7 +2,7 @@ import spaces
 import gradio as gr
 
 from pathlib import Path
-from src.infra.tokenizer import CharacterTokenizer
+from src.infra.tokenizer.character import CharacterTokenizer
 from src.task.config import ModelConfig
 
 from src.task.model import load_model
