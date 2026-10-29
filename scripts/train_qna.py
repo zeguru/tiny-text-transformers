@@ -3,8 +3,9 @@ from pathlib import Path
 import torch
 import json
 
+import time
 from datetime import datetime
-from src.infra.dataset.util import split_tokens, get_batch
+from src.utils.data import split_tokens, get_batch
 from src.infra.tokenizer.character import CharacterTokenizer
 from src.infra.tokenizer.bpe import BPETokenizer
 from src.infra.dataset.answering import QuestionAnsweringDataset
@@ -14,10 +15,11 @@ from src.task.config import ModelConfig,TrainingConfig
 
 from src.task.model import TinyAnsweringModel
 from src.task.training.question_answering import train
-from src.task.training.util import TrainingLogger, count_parameters, separator
+from src.utils.common import TinyLogger, count_parameters, separator
 
-logger = TrainingLogger(
-    "logs/question_answering.log"
+
+logger = TinyLogger(
+    "logs/cli_qna_train.log"
     )
 
 
@@ -36,7 +38,7 @@ model_config = ModelConfig(
     )
 
 training_config = TrainingConfig(
-    num_steps=100,
+    num_steps=500,
     eval_interval=10,
     batch_size=64
     )
@@ -179,7 +181,7 @@ model = train(
 
 print(f"\tEnd: {datetime.now()}===")
 
-logger.log(f"Parameters: {count_parameters(model):,}")
+logger.log(f"\nParameters: {count_parameters(model):,}")
 
 separator("Saving")
 

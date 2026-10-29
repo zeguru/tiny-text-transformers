@@ -3,7 +3,7 @@ from pathlib import Path
 import torch
 
 from src.infra.dataset.classification import TextClassificationDataset
-from src.infra.dataset.util import split_tokens, get_batch, build_label, build_text
+from src.utils.data import split_tokens, get_batch
 from src.infra.tokenizer.character import CharacterTokenizer
 from src.infra.dataset.autoregressive import AutoRegressiveDataset
 
@@ -13,12 +13,12 @@ from src.task.model import TinyTransformerLM, TinyClassifier
 from src.task.training.classification import train
 import pandas as pd
 import numpy as np
-from src.task.training.util import TrainingLogger, count_parameters, separator
+from utils.common import TinyLogger, count_parameters, separator
 
 
 
 # Custom Logger
-logger = TrainingLogger(
+logger = TinyLogger(
     "logs/text_classifier.log"
     )
 

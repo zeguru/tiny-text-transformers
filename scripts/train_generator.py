@@ -2,7 +2,7 @@ from pathlib import Path
 
 import torch
 
-from src.infra.dataset.util import split_tokens, get_batch
+from src.utils.data import split_tokens, get_batch
 from src.infra.tokenizer.character import CharacterTokenizer
 from src.infra.dataset.autoregressive import AutoRegressiveDataset
 
@@ -10,11 +10,11 @@ from src.task.config import ModelConfig,TrainingConfig
 
 from src.task.model import TinyTransformerLM
 from src.task.training.autoregressive import train, evaluate
-from src.task.training.util import TrainingLogger, count_parameters, separator
+from utils.common import TinyLogger, count_parameters, separator
 
 
 # Custom Logger
-logger = TrainingLogger(
+logger = TinyLogger(
     "logs/text_generator.log"
     )
 
