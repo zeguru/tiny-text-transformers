@@ -38,9 +38,10 @@ model_config = ModelConfig(
     )
 
 training_config = TrainingConfig(
-    num_steps=500,
+    num_steps=100,
     eval_interval=10,
-    batch_size=64
+    batch_size=64,
+    eval_batches=16,
     )
 
 # Overrides
@@ -141,8 +142,8 @@ dataset = QuestionAnsweringDataset(
 
 
 n = len(dataset)
-train_size = int(0.90 * n)
-val_size = int(0.05 * n)
+train_size = int(0.80 * n)
+val_size = int(0.10 * n)
 test_size = n - train_size - val_size
 
 train_dataset, val_dataset, test_dataset = random_split(
