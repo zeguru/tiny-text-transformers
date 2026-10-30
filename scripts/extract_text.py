@@ -5,9 +5,9 @@ from src.task.model import load_model
 from src.infra.tokenizer.character import CharacterTokenizer
 from src.infra.tokenizer.bpe import BPETokenizer
 from src.task.inference.extract import TextExtractor
+from src.utils.device import get_device, move_to_device
 import pandas as pd
 import numpy as np
-from src.infra.dataset.util import build_text
 
 
 # Runtime configs
@@ -41,6 +41,9 @@ model_config = ModelConfig(
     number_of_heads=2, 
     context_length=1024
     )
+
+device = get_device()
+print(f"Device: {device}")
 
 model = load_model(
     checkpoint_path=checkpoint,

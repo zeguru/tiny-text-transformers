@@ -1,7 +1,7 @@
 from pathlib import Path
 
 
-class TrainingLogger:
+class TinyLogger:
 
     def __init__(self, path):
         self.path = Path(path)
